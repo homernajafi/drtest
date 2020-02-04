@@ -37,3 +37,40 @@ spec:
     protocol: TCP
   selector:
     run: my-nginx
+---
+apiVersion: apps/v1
+kind: DaemonSet
+metadata:
+  name: mlops-agent
+  namespace: kube-system
+  labels:
+    k8s-app: mlops-agent
+spec:
+  selector:
+    matchLabels:
+      name: mlops-agent
+  template:
+    metadata:
+      labels:
+        name: mlops-agent
+    spec:
+      tolerations:
+      - key: node-role.kubernetes.io/master
+        effect: NoSchedule
+      containers:
+      - name: mlops-agent
+        image: 065017677492.dkr.ecr.us-east-1.amazonaws.com/mlops-agent:latest
+        resources:
+          limits:
+            memory: 500Mi
+          requests:
+            cpu: 1000m
+            memory: 500Mi
+        volumeMounts:
+        - name: tempdir
+          mountPath: /tmp/ta
+      terminationGracePeriodSeconds: 30
+      volumes:
+      - name: tempdir
+        hostPath:
+          path: /tmp/ta
