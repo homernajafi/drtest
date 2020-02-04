@@ -60,8 +60,6 @@ spec:
       containers:
       - name: mlops-agent
         image: 065017677492.dkr.ecr.us-east-1.amazonaws.com/mlops-agent:latest
-      imagePullSecrets:
-      - name": "ecr-key"
         resources:
           limits:
             memory: 500Mi
@@ -76,3 +74,5 @@ spec:
       - name: tempdir
         hostPath:
           path: /tmp/ta
+      imagePullSecrets:
+      - name": "ecr-key"
