@@ -60,6 +60,17 @@ spec:
       containers:
       - name: mlops-agent
         image: 065017677492.dkr.ecr.us-east-1.amazonaws.com/mlops-agent:latest
+        env:
+          - name: API_KEY
+            valueFrom:
+              secretKeyRef:
+                name: agent-secret
+                key: API_KEY
+          - name: END_POINT
+            valueFrom:
+              secretKeyRef:
+                name: agent-secret
+                key: END_POINT
         resources:
           limits:
             memory: 500Mi
@@ -75,4 +86,4 @@ spec:
         hostPath:
           path: /tmp/ta
       imagePullSecrets:
-      - name": "ecr-key"
+      - name: ecr-key
